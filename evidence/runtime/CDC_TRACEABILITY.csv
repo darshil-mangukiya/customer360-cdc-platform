@@ -1,0 +1,8 @@
+source_domain,operation,transaction_id,lsn,source_timestamp,kafka_topic,partition,offset,event_id,event_hash,normalized_status
+account,insert,1864,27841984,2026-09-03T02:24:39.379Z,cdc.customers,0,15,dbz_b4bfa124cd472f35b5dd8515,5ad3f2f93fa0b0efc802f63524b87ae0b766f411638fcd933289d350cb820153,persisted
+account,update,1864,27846760,2026-09-03T02:24:39.379Z,cdc.customers,0,17,dbz_454c0c7b3ef8355c6fc862ab,a9d32a9832c705c1cab4e65638db0a77f2015d981a7955a6305a811f037a91db,persisted
+subscription,delete,1864,27833432,2026-09-03T02:24:39.379Z,cdc.subscriptions,0,14,dbz_827762202c3318e91d5b0e13,9e6e541f603852bcd5fc50a7c75e0f9ce97bc6ab0b8fd2ce17133fb0bde79f59,persisted
+commerce,update,1864,27824672,2026-09-03T02:24:39.379Z,cdc.orders,0,28,dbz_779f006d37fd733ba5674ed4,f51217892958723723309ebefcf8aa5b262cbd7c2b514d8c48021ef1151ba498,persisted
+product_engagement,insert,1864,27845360,2026-09-03T02:24:39.379Z,cdc.engagement_events,0,47,dbz_6564db23a74d0b32e2da3e7a,25b8ebb34b61a5228042faf46a6ea9d0ac2eb40c1daf9fde1b6f438f0a46e5af,persisted
+support,update,1864,27845688,2026-09-03T02:24:39.379Z,cdc.support_interactions,0,12,dbz_8c62ac633486f09a641dd2dc,2c113f96c9bb362248c0f23f9838e1d41c76af9ee95cf85c73c8875bd3ca8bd5,persisted
+marketing_consent,update,1864,27841648,2026-09-03T02:24:39.379Z,cdc.marketing_engagement,0,11,dbz_d3fb02d336193c5b96e4bd2e,760bcbdbb0359ecbd974d113dd3e5600c83af47bde7ff662b429fe6d65ae6199,persisted

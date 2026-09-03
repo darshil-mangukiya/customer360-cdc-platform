@@ -1,0 +1,6 @@
+# SQLFluff's current Snowflake parser does not fully support these native statements.
+# They were live-executed; this exclusion is parser compatibility only.
+snowflake/sql/07_stream_task_cdc.sql
+snowflake/sql/08_dynamic_table.sql
+snowflake/sql/09_governance_policies.sql
+snowflake/sql/10_cost_observability.sql

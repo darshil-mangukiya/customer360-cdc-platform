@@ -1,0 +1,6 @@
+FROM python:3.11-slim
+
+WORKDIR /opt/customer-360-cdc-platform
+COPY requirements.txt .
+RUN pip install --no-cache-dir dbt-core==1.11.14 dbt-postgres==1.11.0 sqlparse==0.6.0 psycopg[binary]==3.2.3
+COPY . .

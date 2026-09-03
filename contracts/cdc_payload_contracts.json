@@ -1,0 +1,160 @@
+{
+  "customers": {
+    "required": ["customer_id", "external_account_id", "tenant_id", "business_unit", "customer_status", "updated_at"],
+    "nullable": ["email", "phone", "first_name", "last_name", "created_at", "source_updated_at"],
+    "types": {
+      "customer_id": "string",
+      "external_account_id": "string",
+      "email": "string",
+      "phone": "string",
+      "first_name": "string",
+      "last_name": "string",
+      "tenant_id": "string",
+      "business_unit": "string",
+      "customer_status": "string",
+      "created_at": "string",
+      "updated_at": "string",
+      "source_updated_at": "string"
+    },
+    "enums": {
+      "customer_status": ["lead", "active", "inactive"]
+    }
+  },
+  "source_customers_cdc_demo": {
+    "required": ["customer_id", "external_account_id", "tenant_id", "business_unit", "customer_status", "updated_at"],
+    "nullable": ["email", "phone", "first_name", "last_name", "source_updated_at"],
+    "types": {
+      "customer_id": "string",
+      "external_account_id": "string",
+      "email": "string",
+      "phone": "string",
+      "first_name": "string",
+      "last_name": "string",
+      "tenant_id": "string",
+      "business_unit": "string",
+      "customer_status": "string",
+      "created_at": "string",
+      "updated_at": "string",
+      "source_updated_at": "string"
+    },
+    "enums": {
+      "customer_status": ["lead", "active", "inactive"]
+    }
+  },
+  "subscriptions": {
+    "required": ["subscription_id", "tenant_id", "business_unit", "external_account_id", "plan_name", "subscription_status", "billing_period", "mrr", "updated_at"],
+    "nullable": ["customer_id", "email", "cancel_at", "trial_end_date"],
+    "types": {
+      "subscription_id": "string",
+      "tenant_id": "string",
+      "business_unit": "string",
+      "customer_id": "string",
+      "external_account_id": "string",
+      "email": "string",
+      "plan_name": "string",
+      "subscription_status": "string",
+      "billing_period": "string",
+      "mrr": "number",
+      "start_date": "string",
+      "trial_end_date": "string",
+      "cancel_at": "string",
+      "updated_at": "string"
+    },
+    "enums": {
+      "subscription_status": ["trialing", "active", "past_due", "canceled"],
+      "billing_period": ["monthly", "annual"]
+    }
+  },
+  "orders": {
+    "required": ["order_id", "tenant_id", "business_unit", "order_customer_ref", "subscription_id", "order_status", "gross_amount", "currency", "ordered_at", "updated_at"],
+    "nullable": ["email"],
+    "types": {
+      "order_id": "string",
+      "tenant_id": "string",
+      "business_unit": "string",
+      "order_customer_ref": "string",
+      "email": "string",
+      "subscription_id": "string",
+      "order_status": "string",
+      "gross_amount": "number",
+      "currency": "string",
+      "ordered_at": "string",
+      "updated_at": "string"
+    },
+    "enums": {
+      "order_status": ["paid", "refunded", "canceled"],
+      "currency": ["USD"]
+    }
+  },
+  "engagement_events": {
+    "required": ["engagement_event_id", "tenant_id", "business_unit", "device_id", "event_name", "event_count", "session_minutes", "event_timestamp", "updated_at"],
+    "nullable": ["customer_id", "email"],
+    "types": {
+      "engagement_event_id": "string",
+      "tenant_id": "string",
+      "business_unit": "string",
+      "device_id": "string",
+      "customer_id": "string",
+      "email": "string",
+      "event_name": "string",
+      "event_count": "integer",
+      "session_minutes": "integer",
+      "event_timestamp": "string",
+      "updated_at": "string"
+    },
+    "enums": {
+      "event_name": ["login", "workspace_created", "feature_used", "invite_sent"]
+    }
+  },
+  "support_interactions": {
+    "required": ["support_interaction_id", "tenant_id", "business_unit", "support_customer_ref", "reason", "priority", "status", "created_at", "updated_at"],
+    "nullable": ["email", "phone", "csat_score"],
+    "types": {
+      "support_interaction_id": "string",
+      "tenant_id": "string",
+      "business_unit": "string",
+      "support_customer_ref": "string",
+      "email": "string",
+      "phone": "string",
+      "reason": "string",
+      "priority": "string",
+      "status": "string",
+      "csat_score": "integer",
+      "created_at": "string",
+      "updated_at": "string"
+    },
+    "enums": {
+      "priority": ["normal", "high"],
+      "status": ["open", "closed"]
+    }
+  },
+  "marketing_engagement": {
+    "required": ["marketing_touch_id", "tenant_id", "business_unit", "email", "channel", "campaign_id", "engagement_status", "marketing_consent_status", "email_opt_in", "sms_opt_in", "push_opt_in", "unsubscribe_status", "do_not_contact_flag", "lead_score", "occurred_at", "updated_at"],
+    "nullable": ["external_account_id"],
+    "types": {
+      "marketing_touch_id": "string",
+      "tenant_id": "string",
+      "business_unit": "string",
+      "email": "string",
+      "external_account_id": "string",
+      "channel": "string",
+      "campaign_id": "string",
+      "engagement_status": "string",
+      "marketing_consent_status": "string",
+      "email_opt_in": "boolean",
+      "sms_opt_in": "boolean",
+      "push_opt_in": "boolean",
+      "unsubscribe_status": "string",
+      "do_not_contact_flag": "boolean",
+      "lead_score": "integer",
+      "occurred_at": "string",
+      "updated_at": "string"
+    },
+    "enums": {
+      "channel": ["email", "sms", "in_app", "ads", "webinar"],
+      "engagement_status": ["opened", "clicked", "unsubscribed"],
+      "marketing_consent_status": ["opted_in", "opted_out"],
+      "unsubscribe_status": ["subscribed", "unsubscribed"]
+    }
+  }
+}

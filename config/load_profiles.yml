@@ -1,0 +1,17 @@
+profiles:
+  smoke:
+    copies: 1
+    approximate_events: 152
+    purpose: "Fast local validation and repeatable smoke runs."
+  small:
+    copies: 50
+    approximate_events: 7600
+    purpose: "Developer benchmark with thousands of CDC events."
+  medium:
+    copies: 500
+    approximate_events: 76000
+    purpose: "Laptop-scale stress test for identity and export generation."
+  large:
+    copies: 1000
+    approximate_events: 152000
+    purpose: "High-volume benchmark for local performance profiling."

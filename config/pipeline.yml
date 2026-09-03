@@ -1,0 +1,23 @@
+pipeline:
+  default_schema_version: 1
+  source_tables:
+    account_app: customers
+    billing_platform: subscriptions
+    commerce_platform: orders
+    product_analytics: engagement_events
+    support_desk: support_interactions
+    marketing_automation: marketing_engagement
+  cdc_topics:
+    customers: cdc.customers
+    subscriptions: cdc.subscriptions
+    orders: cdc.orders
+    engagement_events: cdc.engagement_events
+    support_interactions: cdc.support_interactions
+    marketing_engagement: cdc.marketing_engagement
+  retry_policy:
+    max_attempts: 3
+    retry_delay_seconds: 60
+  freshness_sla_minutes:
+    raw_cdc_events: 60
+    mart_customer_360_current: 120
+    activation_exports: 180

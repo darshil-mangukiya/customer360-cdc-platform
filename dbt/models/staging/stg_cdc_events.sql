@@ -1,0 +1,31 @@
+{{ config(materialized='view') }}
+
+select
+    event_id,
+    tenant_id,
+    source_system,
+    source_table,
+    operation_type,
+    event_timestamp,
+    record_primary_key,
+    payload_before,
+    payload_after,
+    coalesce(payload_after, payload_before) as payload,
+    batch_id,
+    schema_version,
+    topic_name,
+    envelope_hash,
+    ingested_at,
+    event_sequence_number,
+    source_transaction_id,
+    source_lsn,
+    source_commit_timestamp,
+    ingestion_timestamp,
+    kafka_topic,
+    kafka_partition,
+    kafka_offset,
+    event_hash,
+    replay_batch_id,
+    is_replay,
+    operation_type = 'delete' as is_delete
+from {{ source('raw', 'raw_cdc_events') }}

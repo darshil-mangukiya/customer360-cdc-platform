@@ -1,0 +1,68 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: raw_cdc_events
+        config:
+          loaded_at_field: ingested_at
+          freshness:
+            warn_after: {count: 2, period: hour}
+            error_after: {count: 6, period: hour}
+      - name: rejected_events
+  - name: identity
+    schema: identity
+    tables:
+      - name: dim_customer_canonical
+      - name: customer_identity_map
+      - name: identity_graph_node
+      - name: identity_graph_edge
+      - name: identity_match_rule
+      - name: identity_merge_event
+      - name: identity_link_explanation
+      - name: customer_identity_map_history
+      - name: identity_review_queue
+      - name: identity_survivorship_rule
+      - name: identity_merge_audit
+      - name: identity_unmerge_audit
+  - name: audit
+    schema: audit
+    tables:
+      - name: ingestion_log
+      - name: watermark_checkpoint
+      - name: cdc_event_deduplication_log
+      - name: cdc_ordering_anomalies
+      - name: cdc_topic_offset_checkpoint
+      - name: tenant_config
+      - name: tenant_pipeline_sla
+      - name: tenant_activation_config
+  - name: observability
+    schema: observability
+    tables:
+      - name: freshness_status
+      - name: quality_summary
+      - name: validation_failures
+      - name: pipeline_run_log
+  - name: privacy
+    schema: privacy
+    tables:
+      - name: deletion_request
+  - name: activation
+    schema: activation
+    tables:
+      - name: export_customer_segment
+      - name: export_churn_risk
+      - name: export_lifecycle_stage
+      - name: export_customer_health_score
+      - name: export_support_priority
+      - name: export_campaign_target
+      - name: export_suppressed_customers
+      - name: reverse_etl_sync_run_log
+      - name: reverse_etl_sync_failed_row
+      - name: reverse_etl_destination_state
+      - name: reverse_etl_destination_config
+      - name: reverse_etl_payload_audit
+      - name: reverse_etl_destination_status
+      - name: activation_reconciliation
+      - name: activation_reconciliation_finding

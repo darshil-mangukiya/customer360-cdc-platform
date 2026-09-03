@@ -1,0 +1,22 @@
+{
+  "contract_family": "customer360_cdc_payloads",
+  "current_version": "1.1.0",
+  "compatibility_policy": "backward-compatible additive changes are allowed; required field removals, incompatible type changes, and invalid enum changes are rejected",
+  "owners": {
+    "business": "Lifecycle Analytics",
+    "technical": "Data Platform"
+  },
+  "versions": [
+    {
+      "version": "1.0.0",
+      "released_on": "2026-05-11",
+      "summary": "Initial CDC payload contracts for customers, subscriptions, orders, engagement, support, and marketing."
+    },
+    {
+      "version": "1.1.0",
+      "released_on": "2026-05-27",
+      "summary": "Added explicit compatibility guidance, schema drift examples, and privacy-safe activation expectations."
+    }
+  ]
+}
+

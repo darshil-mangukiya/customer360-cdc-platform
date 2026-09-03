@@ -1,0 +1,17 @@
+[
+  {
+    "expected": "TRUE_MATCH",
+    "left": {"tenant_id": "tenant_demo", "record_id": "tm_a", "source_system": "account_app", "email": "alex+source@example.test", "name": "Alex Rivera", "email_verified": true, "updated_at": "2026-08-01T00:00:00Z"},
+    "right": {"tenant_id": "tenant_demo", "record_id": "tm_b", "source_system": "billing_platform", "email": "alex@example.test", "name": "Alex M Rivera", "email_verified": true, "updated_at": "2026-08-02T00:00:00Z"}
+  },
+  {
+    "expected": "TRUE_NON_MATCH",
+    "left": {"tenant_id": "tenant_demo", "record_id": "tn_a", "source_system": "support_desk", "email": "person.one@example.test", "name": "Person One", "updated_at": "2026-01-01T00:00:00Z"},
+    "right": {"tenant_id": "tenant_demo", "record_id": "tn_b", "source_system": "marketing_automation", "email": "person.two@example.test", "name": "Different Human", "updated_at": "2026-01-01T00:00:00Z"}
+  },
+  {
+    "expected": "AMBIGUOUS",
+    "left": {"tenant_id": "tenant_demo", "record_id": "am_a", "source_system": "commerce_platform", "name": "Maria Gonzalez", "address": "10 Main Street", "updated_at": "2026-08-01T00:00:00Z"},
+    "right": {"tenant_id": "tenant_demo", "record_id": "am_b", "source_system": "support_desk", "name": "Maria Gonzales", "address": "10 Main St", "updated_at": "2026-08-02T00:00:00Z"}
+  }
+]

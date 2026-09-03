@@ -1,0 +1,37 @@
+name: customer_360_cdc_platform
+version: "1.0.0"
+config-version: 2
+
+profile: customer_360_cdc_platform
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  customer_360_cdc_platform:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: mart
+      +materialized: table
+    exports:
+      +schema: activation
+      +materialized: table
+
+snapshots:
+  customer_360_cdc_platform:
+    +target_schema: mart
+

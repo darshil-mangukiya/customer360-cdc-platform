@@ -1,0 +1,122 @@
+version: 1
+scope: synthetic_project_data_only
+connector: customer360-postgres-cdc-source
+database: customer_ops
+schema: public
+publication: customer360_publication
+replication_slot: customer360_cdc_slot
+ordering_boundary: per_table_primary_key_within_kafka_partition
+sources:
+  - domain: account
+    logical_source_system: account_app
+    debezium_connector_source: customer_ops
+    normalized_source_system: account_app
+    table: customers
+    primary_key: customer_id
+    business_key: external_account_id
+    tenant_key: tenant_id
+    topic: cdc.customers
+    contract: contracts/cdc_payload_contracts.json#customers
+    expected_operations: [snapshot, insert, update, delete]
+    sensitivity: direct_identifiers
+    identity_role: authoritative_customer_and_external_account
+    dbt_source: raw.raw_cdc_events
+    dbt_staging_model: stg_customers
+    customer_360_dependency: mart_customer_360_current
+    activation_relevance: supplies_surviving_contact_and_status_attributes
+
+  - domain: subscription
+    logical_source_system: billing_platform
+    debezium_connector_source: customer_ops
+    normalized_source_system: billing_platform
+    table: subscriptions
+    primary_key: subscription_id
+    business_key: external_account_id
+    tenant_key: tenant_id
+    topic: cdc.subscriptions
+    contract: contracts/cdc_payload_contracts.json#subscriptions
+    expected_operations: [snapshot, insert, update, delete]
+    sensitivity: direct_identifiers_and_billing_state
+    identity_role: strong_subscription_and_external_account_link
+    dbt_source: raw.raw_cdc_events
+    dbt_staging_model: stg_subscriptions
+    customer_360_dependency: fct_subscription_history
+    activation_relevance: supplies_lifecycle_and_subscription_state
+
+  - domain: commerce
+    logical_source_system: commerce_platform
+    debezium_connector_source: customer_ops
+    normalized_source_system: commerce_platform
+    table: orders
+    primary_key: order_id
+    business_key: order_customer_ref
+    tenant_key: tenant_id
+    topic: cdc.orders
+    contract: contracts/cdc_payload_contracts.json#orders
+    expected_operations: [snapshot, insert, update, delete]
+    sensitivity: pseudonymous_customer_reference_and_commerce
+    identity_role: customer_or_account_reference_link
+    dbt_source: raw.raw_cdc_events
+    dbt_staging_model: stg_orders
+    customer_360_dependency: fct_order_history
+    activation_relevance: supplies_value_and_order_features
+
+  - domain: product_engagement
+    logical_source_system: product_analytics
+    debezium_connector_source: customer_ops
+    normalized_source_system: product_analytics
+    table: engagement_events
+    primary_key: engagement_event_id
+    business_key: device_id
+    tenant_key: tenant_id
+    topic: cdc.engagement_events
+    contract: contracts/cdc_payload_contracts.json#engagement_events
+    expected_operations: [snapshot, insert, update, delete]
+    sensitivity: device_and_behavioral_identifiers
+    identity_role: device_or_customer_link
+    dbt_source: raw.raw_cdc_events
+    dbt_staging_model: stg_engagement_events
+    customer_360_dependency: int_customer_activity_rollup
+    activation_relevance: supplies_engagement_features
+
+  - domain: support
+    logical_source_system: support_desk
+    debezium_connector_source: customer_ops
+    normalized_source_system: support_desk
+    table: support_interactions
+    primary_key: support_interaction_id
+    business_key: support_customer_ref
+    tenant_key: tenant_id
+    topic: cdc.support_interactions
+    contract: contracts/cdc_payload_contracts.json#support_interactions
+    expected_operations: [snapshot, insert, update, delete]
+    sensitivity: contact_and_support_interaction
+    identity_role: customer_or_account_reference_link
+    dbt_source: raw.raw_cdc_events
+    dbt_staging_model: stg_support_interactions
+    customer_360_dependency: int_customer_activity_rollup
+    activation_relevance: supplies_support_priority_features
+
+  - domain: marketing_consent
+    logical_source_system: marketing_automation
+    debezium_connector_source: customer_ops
+    normalized_source_system: marketing_automation
+    table: marketing_engagement
+    primary_key: marketing_touch_id
+    business_key: email
+    tenant_key: tenant_id
+    topic: cdc.marketing_engagement
+    contract: contracts/cdc_payload_contracts.json#marketing_engagement
+    expected_operations: [snapshot, insert, update, delete]
+    sensitivity: direct_identifier_and_consent
+    identity_role: email_or_external_account_link
+    dbt_source: raw.raw_cdc_events
+    dbt_staging_model: stg_marketing_engagement
+    customer_360_dependency: mart_privacy_activation_eligibility
+    activation_relevance: authoritative_consent_and_channel_eligibility
+
+runtime_fixture:
+  table: source_customers_cdc_demo
+  topic: cdc.source_customers_cdc_demo
+  purpose: bounded_CRUD_restart_and_recovery_proof
+  customer_360_domain_counted: false

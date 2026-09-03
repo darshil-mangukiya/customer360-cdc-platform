@@ -1,0 +1,6 @@
+destination_simulator,candidate_count,simulated_success,suppressed,failed_retryable_pending,failed_permanent,skipped_or_duplicate,unaccounted,retry_attempts,status
+campaign_category,12,10,2,0,0,0,0,0,reconciled
+customer_profile_category,12,10,2,0,0,0,0,0,reconciled
+customer_health_category,12,9,2,0,1,0,0,2,reconciled
+support_category,12,10,2,0,0,0,0,2,reconciled
+TOTAL,48,39,8,0,1,0,0,4,reconciled

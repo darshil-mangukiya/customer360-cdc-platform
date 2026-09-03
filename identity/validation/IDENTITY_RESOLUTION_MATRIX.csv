@@ -1,0 +1,13 @@
+case_id,scenario,evidence,expected_outcome,validated_by,status,limitation
+ID-01,exact single-key match,normalized email at confidence 0.86,MERGE,tests/test_identity_resolution.py,PASS,synthetic fixture
+ID-02,multiple strong identifiers agree,external account plus subscription or customer ID,MERGE,tests/test_identity_resolution.py,PASS,deterministic identifiers only
+ID-03,conflicting identifiers,strong component with conflicting email,STEWARDSHIP,identity_resolution/output/identity_review_queue.csv,PASS,modeled review queue
+ID-04,weak identifier only,shared device at confidence 0.62,STEWARDSHIP,tests/test_identity_stewardship.py,PASS,no automatic merge
+ID-05,ambiguous candidate,review-band shared identifier,STEWARDSHIP,tests/test_identity_stewardship.py,PASS,modeled decision workflow
+ID-06,transitive graph connection,strong identifiers bridge three source records,UPDATE COMPONENT,tests/test_identity_resolution.py,PASS,Union-Find deterministic graph
+ID-07,duplicate source profile,same event or record repeated,NO DUPLICATE EFFECT,tests/test_cdc_hardening.py,PASS,event ID hash and Kafka position defenses
+ID-08,cross-tenant identical identifiers,same email in tenant A and tenant B,NO MERGE,tests/test_p7_2_governed_cdc.py,PASS,cross-tenant merges zero
+ID-09,identifier change,newer source event changes an identifier,UPDATE COMPONENT,tests/test_point_in_time_history.py,PASS,history retained at event/model layers
+ID-10,deleted or revoked identifier,delete event or consent revocation,SUPPRESS,tests/test_consent_history.py,PASS,activation blocked; audit history retained
+ID-11,false merge adversary,two people share only a device identifier,NO AUTO MERGE,tests/test_identity_stewardship.py,PASS,routed to modeled stewardship
+ID-12,false split adversary,one person linked by multiple strong identifiers,MERGE,tests/test_identity_resolution.py,PASS,tenant-scoped component

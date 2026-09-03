@@ -1,0 +1,11 @@
+[project]
+name = "customer-360-cdc-platform"
+version = "0.1.0"
+description = "CDC-driven Customer 360 warehouse and reverse ETL activation platform"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+

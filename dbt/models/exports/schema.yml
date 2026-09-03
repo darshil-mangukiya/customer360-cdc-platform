@@ -1,0 +1,149 @@
+version: 2
+
+models:
+  - name: export_customer_segment
+    description: Privacy-safe customer segment payload for marketing and lifecycle tools.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: canonical_customer_id
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+      - name: business_unit
+        data_type: text
+      - name: email_sha256
+        data_type: text
+      - name: phone_sha256
+        data_type: text
+      - name: export_timestamp
+        data_type: timestamp with time zone
+      - name: customer_segment
+        data_type: text
+      - name: source_lineage_refs
+        data_type: text
+
+  - name: export_churn_risk
+    description: Privacy-safe churn risk payload for customer success and lifecycle tools.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: canonical_customer_id
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+      - name: email_sha256
+        data_type: text
+      - name: phone_sha256
+        data_type: text
+      - name: export_timestamp
+        data_type: timestamp with time zone
+      - name: churn_risk_score
+        data_type: integer
+      - name: churn_risk_band
+        data_type: text
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['low', 'medium', 'high']
+      - name: last_refresh_time
+        data_type: timestamp with time zone
+      - name: source_lineage_refs
+        data_type: text
+
+  - name: export_lifecycle_stage
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: canonical_customer_id
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+      - name: email_sha256
+        data_type: text
+      - name: phone_sha256
+        data_type: text
+      - name: export_timestamp
+        data_type: timestamp with time zone
+      - name: lifecycle_stage
+        data_type: text
+      - name: last_refresh_time
+        data_type: timestamp with time zone
+
+  - name: export_customer_health_score
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: canonical_customer_id
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+      - name: email_sha256
+        data_type: text
+      - name: phone_sha256
+        data_type: text
+      - name: export_timestamp
+        data_type: timestamp with time zone
+      - name: health_score
+        data_type: integer
+      - name: last_refresh_time
+        data_type: timestamp with time zone
+      - name: source_lineage_refs
+        data_type: text
+
+  - name: export_support_priority
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: canonical_customer_id
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+      - name: email_sha256
+        data_type: text
+      - name: phone_sha256
+        data_type: text
+      - name: export_timestamp
+        data_type: timestamp with time zone
+      - name: support_priority
+        data_type: text
+      - name: churn_risk_band
+        data_type: text
+      - name: source_lineage_refs
+        data_type: text
+
+  - name: export_campaign_target
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: canonical_customer_id
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+      - name: business_unit
+        data_type: text
+      - name: email_sha256
+        data_type: text
+      - name: phone_sha256
+        data_type: text
+      - name: export_timestamp
+        data_type: timestamp with time zone
+      - name: campaign_target
+        data_type: text
+      - name: customer_segment
+        data_type: text
+      - name: churn_risk_band
+        data_type: text
+

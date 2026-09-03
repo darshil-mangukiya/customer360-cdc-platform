@@ -1,0 +1,5 @@
+sequence,status,transaction_id,lsn,kafka_topic,partition,offset,event_id,persisted_after_replay
+1,lead,1874,27854784,cdc.customers,0,18,dbz_4228271d92eac3bbc2ef5ba0,true
+2,active,1875,27858536,cdc.customers,0,19,dbz_97bd08f8cb0b1384472fe072,true
+3,inactive,1876,27858952,cdc.customers,0,20,dbz_feeb2f06c2684b6789dab766,true
+FINAL,inactive,,,,,,,exactly_3_distinct_events

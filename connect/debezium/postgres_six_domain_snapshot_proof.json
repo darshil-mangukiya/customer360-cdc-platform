@@ -1,0 +1,24 @@
+{
+  "name": "customer360-six-domain-snapshot-proof",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "database.hostname": "source_postgres",
+    "database.port": "5432",
+    "database.user": "c360",
+    "database.password": "c360",
+    "database.dbname": "customer_ops",
+    "database.server.name": "customer_ops_snapshot",
+    "topic.prefix": "customer_ops_snapshot",
+    "slot.name": "customer360_snapshot_proof_slot",
+    "publication.name": "customer360_publication",
+    "table.include.list": "public.customers,public.subscriptions,public.orders,public.engagement_events,public.support_interactions,public.marketing_engagement",
+    "tombstones.on.delete": "false",
+    "decimal.handling.mode": "string",
+    "snapshot.mode": "initial",
+    "transforms": "route",
+    "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.route.regex": "customer_ops_snapshot.public.(.*)",
+    "transforms.route.replacement": "cdc_snapshot.$1"
+  }
+}

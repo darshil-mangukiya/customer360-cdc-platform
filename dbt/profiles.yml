@@ -1,0 +1,34 @@
+customer_360_cdc_platform:
+  # Default target stays Postgres so the existing local Docker workflow is unaffected.
+  # Select the Snowflake target explicitly with `dbt <command> --target snowflake`.
+  target: "{{ env_var('DBT_TARGET', 'dev') }}"
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('POSTGRES_HOST', 'localhost') }}"
+      user: "{{ env_var('POSTGRES_USER', 'c360') }}"
+      password: "{{ env_var('POSTGRES_PASSWORD', 'c360') }}"
+      port: "{{ env_var('POSTGRES_PORT', 5432) | int }}"
+      dbname: "{{ env_var('POSTGRES_DB', 'c360') }}"
+      schema: mart
+      threads: 4
+      keepalives_idle: 0
+
+    # Snowflake target. All values come from
+    # environment variables — no secrets or account identifiers are hard-coded here.
+    # See snowflake/README.md for bootstrap SQL, role design, and setup instructions.
+    # `dbt parse` / `dbt compile --target snowflake` can be verified without a live
+    # account (placeholder env vars are enough to resolve the profile and adapter).
+    # `dbt run` / `dbt test --target snowflake` require a real Snowflake account.
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'C360_TRANSFORMER') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'C360') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'C360_WH') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'ANALYTICS') }}"
+      threads: 4
+      client_session_keep_alive: false
+      query_tag: "dbt_customer_360_cdc_platform"

@@ -1,0 +1,73 @@
+version: 2
+
+exposures:
+  - name: lifecycle_marketing_activation
+    label: Lifecycle Marketing Activation Sync
+    type: application
+    maturity: high
+    description: Reverse ETL sync contract for lifecycle stage, segment, and campaign target outputs.
+    depends_on:
+      - ref('export_customer_segment')
+      - ref('export_lifecycle_stage')
+      - ref('export_campaign_target')
+    owner:
+      name: Lifecycle Analytics
+      email: lifecycle-analytics@example.com
+
+  - name: customer_success_churn_workbench
+    label: Customer Success Churn Workbench
+    type: dashboard
+    maturity: high
+    description: Customer success operational surface powered by Customer 360, churn risk, health score, and support priority exports.
+    depends_on:
+      - ref('mart_customer_360_current')
+      - ref('export_churn_risk')
+      - ref('export_customer_health_score')
+      - ref('export_support_priority')
+    owner:
+      name: Customer Success Operations
+      email: cs-ops@example.com
+
+  - name: data_platform_observability
+    label: Customer 360 Data Platform Observability
+    type: dashboard
+    maturity: medium
+    description: Monitoring exposure for CDC pipeline health, identity quality, and activation freshness.
+    depends_on:
+      - ref('mart_pipeline_health')
+      - ref('mart_identity_resolution_quality')
+      - ref('mart_activation_freshness')
+      - ref('mart_reverse_etl_sync_health')
+    owner:
+      name: Data Platform
+      email: data-platform@example.com
+
+  - name: customer_360_activation_api
+    label: Customer 360 Activation API
+    type: application
+    maturity: medium
+    url: http://localhost:8000/docs
+    description: FastAPI data product layer for tenant-filtered exports, customer profiles, timelines, identity lineage, privacy requests, and observability summaries.
+    depends_on:
+      - ref('mart_customer_360_current')
+      - ref('export_customer_segment')
+      - ref('export_churn_risk')
+      - ref('export_lifecycle_stage')
+      - ref('export_customer_health_score')
+      - ref('export_support_priority')
+    owner:
+      name: Data Platform
+      email: data-platform@example.com
+
+  - name: privacy_safe_activation_gate
+    label: Privacy-Safe Activation Gate
+    type: application
+    maturity: high
+    description: Consent and suppression policy that excludes opted-out, unsubscribed, deletion-requested, do-not-contact, and destination-ineligible customers before reverse ETL sync.
+    depends_on:
+      - ref('export_campaign_target')
+      - ref('export_customer_segment')
+      - ref('export_churn_risk')
+    owner:
+      name: Privacy Engineering
+      email: privacy-engineering@example.com

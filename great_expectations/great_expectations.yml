@@ -1,0 +1,18 @@
+config_version: 3.0
+datasources:
+  local_customer360_outputs:
+    class_name: Datasource
+    execution_engine:
+      class_name: PandasExecutionEngine
+    data_connectors:
+      default_runtime_data_connector_name:
+        class_name: RuntimeDataConnector
+        batch_identifiers:
+          - default_identifier_name
+stores: {}
+expectations_store_name: expectations_store
+validations_store_name: validations_store
+checkpoint_store_name: checkpoint_store
+data_docs_sites: {}
+anonymous_usage_statistics:
+  enabled: false

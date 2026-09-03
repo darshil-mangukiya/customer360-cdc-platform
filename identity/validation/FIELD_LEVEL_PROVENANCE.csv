@@ -1,0 +1,7 @@
+golden_customer_id,attribute,surviving_value,source_domain,source_record,source_timestamp,rule,confidence_status
+cc_5a95a26fa676,primary_email,[masked],account_app,cust_0004,2025-01-23T09:00:00Z,source_priority_then_latest_non_null,deterministic
+cc_5a95a26fa676,primary_phone,[masked],account_app,cust_0004,2025-01-23T09:00:00Z,source_priority_then_latest_non_null,deterministic
+cc_5a95a26fa676,first_name,[masked],account_app,cust_0004,2025-01-23T09:00:00Z,source_priority_then_latest_non_null,deterministic
+cc_5a95a26fa676,last_name,[masked],account_app,cust_0004,2025-01-23T09:00:00Z,source_priority_then_latest_non_null,deterministic
+cc_5a95a26fa676,customer_status,active,account_app,cust_0004,2025-01-23T09:00:00Z,source_priority_then_latest_non_null,deterministic
+cc_5a95a26fa676,business_unit,self_serve,account_app,cust_0004,2025-01-23T09:00:00Z,source_priority_then_latest_non_null,deterministic

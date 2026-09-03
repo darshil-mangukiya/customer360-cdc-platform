@@ -1,0 +1,6 @@
+source_relation,target_relation,source_type,target_type,transformation,owner
+raw.raw_cdc_events,C360.RAW.RAW_CDC_EVENTS,jsonb payload,variant,preserve Debezium envelope and Kafka metadata,Data Platform
+identity.dim_customer_canonical,C360.IDENTITY.DIM_CUSTOMER_CANONICAL,text/timestamptz,string/timestamp_tz,shared deterministic identity output,Data Platform
+mart_mart.mart_customer_360_current,C360.ANALYTICS_MART.MART_CUSTOMER_360_CURRENT,relational,relational,shared dbt model,Analytics Engineering
+mart_mart.fct_subscription_history,C360.ANALYTICS_MART.FCT_SUBSCRIPTION_HISTORY,relational,relational,shared dbt SCD2 model,Analytics Engineering
+mart_activation.export_campaign_target,C360.ANALYTICS_ACTIVATION.EXPORT_CAMPAIGN_TARGET,relational,relational,privacy-gated shared dbt export,Lifecycle Marketing

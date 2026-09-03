@@ -1,0 +1,27 @@
+{
+  "name": "customer360-postgres-cdc-source",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "database.hostname": "source_postgres",
+    "database.port": "5432",
+    "database.user": "c360",
+    "database.password": "c360",
+    "database.dbname": "customer_ops",
+    "database.server.name": "customer_ops",
+    "topic.prefix": "customer_ops",
+    "slot.name": "customer360_cdc_slot",
+    "publication.name": "customer360_publication",
+    "table.include.list": "public.customers,public.subscriptions,public.orders,public.engagement_events,public.support_interactions,public.marketing_engagement,public.source_customers_cdc_demo",
+    "tombstones.on.delete": "false",
+    "decimal.handling.mode": "string",
+    "time.precision.mode": "adaptive_time_microseconds",
+    "snapshot.mode": "initial",
+    "heartbeat.interval.ms": "30000",
+    "heartbeat.action.query": "insert into public.cdc_heartbeat(ts) values (now())",
+    "transforms": "route",
+    "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.route.regex": "customer_ops.public.(.*)",
+    "transforms.route.replacement": "cdc.$1"
+  }
+}

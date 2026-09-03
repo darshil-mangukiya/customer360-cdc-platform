@@ -1,0 +1,8 @@
+[
+  {
+    "tenant_id": "tenant_demo",
+    "canonical_customer_id": "cc_fixture_001",
+    "customer_status": "active",
+    "source_record_count": 2
+  }
+]

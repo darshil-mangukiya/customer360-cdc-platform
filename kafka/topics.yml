@@ -1,0 +1,25 @@
+topics:
+  - name: cdc.customers
+    partitions: 3
+    replication_factor: 1
+    key_strategy: source_system:record_primary_key
+  - name: cdc.subscriptions
+    partitions: 3
+    replication_factor: 1
+    key_strategy: source_system:record_primary_key
+  - name: cdc.orders
+    partitions: 3
+    replication_factor: 1
+    key_strategy: source_system:record_primary_key
+  - name: cdc.engagement_events
+    partitions: 3
+    replication_factor: 1
+    key_strategy: source_system:record_primary_key
+  - name: cdc.support_interactions
+    partitions: 3
+    replication_factor: 1
+    key_strategy: source_system:record_primary_key
+  - name: cdc.marketing_engagement
+    partitions: 3
+    replication_factor: 1
+    key_strategy: source_system:record_primary_key

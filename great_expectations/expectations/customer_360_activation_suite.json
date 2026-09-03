@@ -1,0 +1,45 @@
+{
+  "expectation_suite_name": "customer_360_activation_suite",
+  "meta": {
+    "owner": "Data Platform",
+    "notes": "Great Expectations-compatible suite evaluated by validation/great_expectations_runner.py for lightweight local CI."
+  },
+  "expectations": [
+    {
+      "expectation_type": "expect_table_row_count_to_be_between",
+      "kwargs": {
+        "table": "reverse_etl/exports/churn_risk_export.csv",
+        "min_value": 1
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "table": "reverse_etl/exports/churn_risk_export.csv",
+        "column": "canonical_customer_id"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "table": "reverse_etl/exports/churn_risk_export.csv",
+        "column": "churn_risk_band",
+        "value_set": ["low", "medium", "high"]
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "table": "identity_resolution/output/dim_customer_canonical.csv",
+        "column": "canonical_customer_id"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "table": "reverse_etl/sync_logs/destination_sync_state.csv",
+        "column": "idempotency_key"
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+-r requirements.txt
+pytest==9.1.1
+sqlfluff==4.2.1
+sqlfluff-templater-dbt==4.2.1
+# Optional second dbt adapter target. Only required to run
+# `dbt parse/compile/run --target snowflake`;
+# the default Postgres workflow does not need it installed.
+dbt-snowflake==1.11.6

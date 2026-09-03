@@ -1,0 +1,18 @@
+# CONFIGURATION-ONLY: Snowflake Kafka Connector. Never place key material here.
+name=c360-snowflake-sink
+connector.class=com.snowflake.kafka.connector.SnowflakeSinkConnector
+tasks.max=1
+topics=c360.public.customers
+snowflake.url.name=${env:SNOWFLAKE_KAFKA_URL}
+snowflake.user.name=${env:SNOWFLAKE_KAFKA_USER}
+snowflake.private.key=${env:SNOWFLAKE_KAFKA_PRIVATE_KEY}
+snowflake.database.name=C360
+snowflake.schema.name=RAW
+key.converter=org.apache.kafka.connect.storage.StringConverter
+value.converter=org.apache.kafka.connect.json.JsonConverter
+value.converter.schemas.enable=false
+behavior.on.null.values=IGNORE
+errors.tolerance=all
+errors.deadletterqueue.topic.name=c360.snowflake.dlq
+errors.deadletterqueue.context.headers.enable=true
+snowflake.topic2table.map=c360.public.customers:RAW_CDC_EVENTS

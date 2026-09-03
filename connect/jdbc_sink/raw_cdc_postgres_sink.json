@@ -1,0 +1,20 @@
+{
+  "name": "customer360-raw-cdc-postgres-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "connection.url": "jdbc:postgresql://postgres:5432/c360",
+    "connection.user": "${file:/opt/kafka/secrets/warehouse.properties:connection.user}",
+    "connection.password": "${file:/opt/kafka/secrets/warehouse.properties:connection.password}",
+    "topics": "cdc.customers,cdc.subscriptions,cdc.orders,cdc.engagement_events,cdc.support_interactions,cdc.marketing_engagement",
+    "insert.mode": "upsert",
+    "pk.mode": "record_value",
+    "pk.fields": "event_id",
+    "auto.create": "false",
+    "auto.evolve": "false",
+    "delete.enabled": "false",
+    "table.name.format": "raw.raw_cdc_events",
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "dlq.raw_cdc_events",
+    "errors.deadletterqueue.context.headers.enable": "true"
+  }
+}

@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_cdc_events
+    description: Normalized raw CDC envelopes with payload and operation metadata preserved.
+    columns:
+      - name: event_id
+        tests: [not_null, unique]
+      - name: operation_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['insert', 'update', 'delete']
+  - name: stg_customers
+    columns:
+      - name: source_customer_id
+        tests: [not_null]
+  - name: stg_subscriptions
+    columns:
+      - name: subscription_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['trialing', 'active', 'past_due', 'canceled']
+              config:
+                where: "subscription_status is not null"
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests: [not_null]

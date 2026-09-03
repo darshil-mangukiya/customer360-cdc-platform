@@ -1,0 +1,239 @@
+version: 2
+
+models:
+  - name: fct_order_history
+    description: Deduplicated current order facts mapped to canonical customers.
+    columns:
+      - name: tenant_id
+        data_type: text
+        tests: [not_null]
+      - name: order_id
+        data_type: text
+        tests: [not_null]
+      - name: canonical_customer_id
+        data_type: text
+        tests:
+          - relationships:
+              arguments:
+                to: source('identity', 'dim_customer_canonical')
+                field: canonical_customer_id
+              config:
+                where: "canonical_customer_id is not null"
+      - name: ordered_at
+        data_type: timestamp with time zone
+      - name: order_status
+        data_type: text
+      - name: gross_amount
+        data_type: numeric(38, 6)
+      - name: currency
+        data_type: text
+      - name: source_event_id
+        data_type: text
+      - name: source_event_timestamp
+        data_type: timestamp with time zone
+      - name: loaded_at
+        data_type: timestamp with time zone
+
+  - name: fct_subscription_history
+    description: Event-sequenced SCD-style subscription status history.
+    columns:
+      - name: subscription_history_sk
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+        tests: [not_null]
+      - name: canonical_customer_id
+        data_type: text
+      - name: subscription_id
+        data_type: text
+      - name: plan_name
+        data_type: text
+      - name: subscription_status
+        data_type: text
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['trialing', 'active', 'past_due', 'canceled']
+      - name: mrr
+        data_type: numeric(38, 6)
+      - name: valid_from
+        data_type: timestamp with time zone
+      - name: valid_to
+        data_type: timestamp with time zone
+      - name: is_current
+        data_type: boolean
+      - name: effective_timestamp
+        data_type: timestamp with time zone
+      - name: source_event_id
+        data_type: text
+        tests: [not_null]
+      - name: change_reason
+        data_type: text
+      - name: is_delete
+        data_type: boolean
+
+  - name: mart_customer_360_current
+    description: Current Customer 360 serving mart for analytics and activation.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: canonical_customer_id
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+      - name: business_unit
+        data_type: text
+      - name: primary_email
+        data_type: text
+      - name: primary_phone
+        data_type: text
+      - name: lifecycle_stage
+        data_type: text
+      - name: current_plan_name
+        data_type: text
+      - name: current_subscription_status
+        data_type: text
+      - name: total_orders
+        data_type: integer
+      - name: total_revenue
+        data_type: numeric(38, 6)
+      - name: engagement_events_30d
+        data_type: integer
+      - name: support_cases_90d
+        data_type: integer
+      - name: open_support_cases
+        data_type: integer
+      - name: health_score
+        data_type: integer
+      - name: churn_risk_score
+        data_type: integer
+      - name: churn_risk_band
+        data_type: text
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['low', 'medium', 'high']
+              config:
+                where: "churn_risk_band is not null"
+      - name: last_activity_at
+        data_type: timestamp with time zone
+      - name: updated_at
+        data_type: timestamp with time zone
+
+  - name: mart_customer_360_masked
+    description: Analyst-safe Customer 360 view with direct identifiers masked.
+    columns:
+      - name: canonical_customer_id
+        tests: [not_null, unique]
+      - name: masked_email
+      - name: masked_phone
+
+  - name: mart_privacy_activation_eligibility
+    description: Governed, fail-closed consent and deletion eligibility used by every dbt activation export.
+    columns:
+      - name: canonical_customer_id
+        tests: [not_null, unique]
+      - name: tenant_id
+        tests: [not_null]
+      - name: activation_eligible
+        tests: [not_null]
+      - name: suppression_reason
+      - name: marketing_consent_status
+      - name: consent_event_id
+
+  - name: mart_customer_lifecycle_history
+    description: Point-in-time lifecycle stage history by canonical customer.
+    columns:
+      - name: lifecycle_history_sk
+        data_type: text
+        tests: [not_null, unique]
+      - name: tenant_id
+        data_type: text
+        tests: [not_null]
+      - name: canonical_customer_id
+        data_type: text
+      - name: lifecycle_stage
+        data_type: text
+      - name: stage_started_at
+        data_type: timestamp with time zone
+      - name: stage_ended_at
+        data_type: timestamp with time zone
+      - name: is_current
+        data_type: boolean
+      - name: source_event_id
+        data_type: text
+
+  - name: mart_customer_health
+    description: Health and churn features by canonical customer.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: tenant_id
+        data_type: text
+        tests: [not_null]
+      - name: canonical_customer_id
+        data_type: text
+        tests: [not_null, unique]
+      - name: health_score
+        data_type: integer
+      - name: churn_risk_score
+        data_type: integer
+      - name: churn_risk_band
+        data_type: text
+      - name: feature_payload
+        data_type: text
+      - name: calculated_at
+        data_type: timestamp with time zone
+
+  - name: mart_pipeline_health
+    description: Operational monitoring mart for CDC load health, rejected-rate trend, and freshness.
+    columns:
+      - name: entity_name
+        tests: [not_null, unique]
+      - name: pipeline_health_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['healthy', 'warning', 'critical']
+
+  - name: mart_identity_resolution_quality
+    description: Identity graph monitoring by tenant and business unit.
+    columns:
+      - name: canonical_customer_count
+      - name: mapped_source_record_count
+
+  - name: mart_activation_freshness
+    description: Reverse ETL export freshness and row count status.
+    columns:
+      - name: export_name
+        tests: [not_null, unique]
+      - name: activation_freshness_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['fresh', 'stale', 'missing']
+
+  - name: mart_reverse_etl_sync_health
+    description: Destination-level reverse ETL sync health, retry, failure, and rate-limit monitoring.
+    columns:
+      - name: destination_name
+        tests: [not_null, unique]
+      - name: sync_health_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['healthy', 'rate_limited', 'degraded']
+
+  - name: mart_customer_360_semantic_metrics
+    description: Business-facing semantic metrics for Customer 360, CDC quality, activation freshness, and sync health.
+    columns:
+      - name: metric_name
+        tests: [not_null, unique]
+      - name: metric_value
+      - name: metric_grain
+      - name: measured_at
+      - name: metric_description

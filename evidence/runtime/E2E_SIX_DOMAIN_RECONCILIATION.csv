@@ -1,0 +1,8 @@
+domain,source_table,source_rows_after_run,cdc_events,accepted,duplicates_on_bounded_replay,invalid_dlq,persisted,distinct_source_records,identity_linked,dbt_represented,privacy_eligible_customers,privacy_suppressed_customers,activation_disposition,limitation
+account,customers,13,18,18,3,0,18,13,13,18,10,3,10 eligible exported and 3 governed suppressions across the shared Customer 360 population,excludes separate three-event ordering fixture
+subscription,subscriptions,11,20,20,0,0,20,12,12,20,10,3,represented in 19 SCD2 rows and shared activation accounting,one source delete explains 12 observed identities versus 11 current rows
+commerce,orders,36,38,38,0,0,38,36,36,38,10,3,represented in 36 order facts and shared activation accounting,activation is customer grain not event grain
+product_engagement,engagement_events,48,48,48,0,0,48,48,48,48,10,3,represented in activity rollups and shared activation accounting,activation is customer grain not event grain
+support,support_interactions,12,14,14,0,0,14,12,12,14,10,3,represented in support features and shared activation accounting,activation is customer grain not event grain
+marketing_consent,marketing_engagement,12,14,14,0,0,14,12,12,14,10,3,10 eligible plus 2 do-not-contact and 1 missing-consent suppression,governed eligibility reconciles at customer grain
+TOTAL,all_six_domains,132,152,152,3,0,152,133,133,152,10,3,6 exports each contain the same 10 eligible customers; no unexplained loss,source rows are current state while CDC events include history
